@@ -4,6 +4,6 @@
 //
 
 runtime_resource_overlay {
-    name: "OPlusFrameworksResCommon",
+    name: "XiaomiFrameworksResCommon",
     device_specific: true,
 }

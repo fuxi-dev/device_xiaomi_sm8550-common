@@ -4,6 +4,6 @@
 //
 
 runtime_resource_overlay {
-    name: "OPlusSettingsResCommon",
+    name: "XiaomiSettingsResCommon",
     device_specific: true,
 }

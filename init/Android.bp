@@ -3,33 +3,11 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-cc_library_static {
-    name: "libinit_oplus",
-    recovery_available: true,
-    shared_libs: ["libbase"],
-    srcs: ["init_oplus.cpp"],
-}
-
 prebuilt_etc {
     name: "fstab.default",
     src: "fstab.default",
     vendor: true,
     vendor_ramdisk_available: true,
-}
-
-prebuilt_etc {
-    name: "init.oplus.hw.rc",
-    src: "init.oplus.hw.rc",
-    sub_dir: "init",
-    device_specific: true,
-    recovery_available: true,
-}
-
-prebuilt_etc {
-    name: "init.oplus.rc",
-    src: "init.oplus.rc",
-    sub_dir: "init",
-    device_specific: true,
 }
 
 prebuilt_etc {
@@ -54,9 +32,9 @@ prebuilt_etc {
 }
 
 prebuilt_etc {
-    name: "ueventd.oplus.rc",
+    name: "ueventd.odm.rc",
     filename: "ueventd.rc",
-    src: "ueventd.oplus.rc",
+    src: "ueventd.odm.rc",
     device_specific: true,
 }
 

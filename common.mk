@@ -7,6 +7,36 @@
 # A/B
 $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/android_t_baseline.mk)
 
+# APEX
+$(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
+
+# Dalvik
+$(call inherit-product, frameworks/native/build/phone-xhdpi-6144-dalvik-heap.mk)
+
+# Enforce generic ramdisk allow list
+$(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
+
+# Storage
+$(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
+
+# Overlay
+DEVICE_PACKAGE_OVERLAYS += \
+    $(LOCAL_PATH)/overlay-lineage
+
+PRODUCT_ENFORCE_RRO_TARGETS := *
+PRODUCT_PACKAGES += \
+    CarrierConfigResCommon \
+    FrameworksResTarget \
+    XiaomiFrameworksResCommon \
+    XiaomiSettingsResCommon \
+    XiaomiSystemUIResCommon \
+    WifiResTarget
+
+# Shipping API
+BOARD_API_LEVEL := 33
+BOARD_SHIPPING_API_LEVEL := $(BOARD_API_LEVEL)
+PRODUCT_SHIPPING_API_LEVEL := $(BOARD_API_LEVEL)
+
 AB_OTA_POSTINSTALL_CONFIG += \
     RUN_POSTINSTALL_system=true \
     POSTINSTALL_PATH_system=system/bin/otapreopt_script \
@@ -29,14 +59,6 @@ PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := gz
 PRODUCT_PACKAGES += \
     AntHalService-Soong \
     com.dsi.ant@1.0.vendor
-
-# Alert slider
-PRODUCT_PACKAGES += \
-    KeyHandler \
-    tri-state-key-calibrate
-
-# APEX
-$(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 
 # Atrace
 PRODUCT_PACKAGES += \
@@ -119,9 +141,6 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.camera.full.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.full.xml \
     frameworks/native/data/etc/android.hardware.camera.raw.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.raw.xml
 
-# Dalvik
-$(call inherit-product, frameworks/native/build/phone-xhdpi-6144-dalvik-heap.mk)
-
 # DebugFS
 PRODUCT_SET_DEBUGFS_RESTRICTIONS := true
 
@@ -158,17 +177,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml
 
-# Doze
-PRODUCT_PACKAGES += \
-    OplusDoze
-
 # DRM
 PRODUCT_PACKAGES += \
     android.hardware.drm@1.3.vendor \
     android.hardware.drm-service.clearkey
-
-# Enforce generic ramdisk allow list
-$(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
 
 # Fastboot
 PRODUCT_PACKAGES += \
@@ -177,7 +189,7 @@ PRODUCT_PACKAGES += \
 
 # Fingerprint
 PRODUCT_PACKAGES += \
-    android.hardware.biometrics.fingerprint@2.3-service.oplus
+    android.hardware.biometrics.fingerprint@2.3-service.xiaomi
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.fingerprint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.fingerprint.xml
@@ -228,9 +240,6 @@ PRODUCT_PACKAGES += \
     fstab.default \
     fstab.default.vendor_ramdisk \
     init.class_main.sh \
-    init.oplus.hw.rc \
-    init.oplus.hw.rc.recovery \
-    init.oplus.rc \
     init.qcom.early_boot.sh \
     init.qcom.rc \
     init.qcom.recovery.rc \
@@ -238,7 +247,7 @@ PRODUCT_PACKAGES += \
     init.qcom.usb.rc \
     init.qcom.usb.sh \
     init.target.rc \
-    ueventd.oplus.rc \
+    ueventd.odm.rc \
     ueventd.qcom.rc
 
 # Keymaster
@@ -262,7 +271,7 @@ PRODUCT_PACKAGES += \
 
 # LiveDisplay
 PRODUCT_PACKAGES += \
-    vendor.lineage.livedisplay@2.1-service.oplus
+    vendor.lineage.livedisplay@2.1-service.xiaomi
 
 # Media
 PRODUCT_COPY_FILES += \
@@ -314,21 +323,6 @@ PRODUCT_PACKAGES += \
     libOmxCore \
     libstagefrighthw
 
-# Overlays
-$(call inherit-product, hardware/oplus/overlay/qssi/qssi.mk)
-
-DEVICE_PACKAGE_OVERLAYS += \
-    $(LOCAL_PATH)/overlay-lineage
-
-PRODUCT_ENFORCE_RRO_TARGETS := *
-PRODUCT_PACKAGES += \
-    CarrierConfigResCommon \
-    FrameworksResTarget \
-    OPlusFrameworksResCommon \
-    OPlusSettingsResCommon \
-    OPlusSystemUIResCommon \
-    WifiResTarget
-
 # Partitions
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
@@ -364,11 +358,7 @@ PRODUCT_PACKAGES += \
 # Sensors
 PRODUCT_PACKAGES += \
     android.hardware.sensors-service.multihal \
-    libsensorndkbridge \
-    sensors.oplus
-
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf
+    libsensorndkbridge
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.accelerometer.xml \
@@ -382,18 +372,10 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.sensor.stepcounter.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.stepcounter.xml \
     frameworks/native/data/etc/android.hardware.sensor.stepdetector.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.stepdetector.xml
 
-# Shipping API
-BOARD_API_LEVEL := 33
-BOARD_SHIPPING_API_LEVEL := $(BOARD_API_LEVEL)
-PRODUCT_SHIPPING_API_LEVEL := $(BOARD_API_LEVEL)
-
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH) \
-    hardware/oplus
-
-# Storage
-$(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
+    hardware/xiaomi
 
 # Telephony
 PRODUCT_PACKAGES += \
@@ -429,7 +411,7 @@ PRODUCT_PACKAGES += \
 
 # Touch
 PRODUCT_PACKAGES += \
-    vendor.lineage.touch@1.0-service.oplus
+    vendor.lineage.touch@1.0-service.xiaomi
 
 # Update engine
 PRODUCT_PACKAGES += \
@@ -461,7 +443,7 @@ PRODUCT_COPY_FILES += \
 
 # Vibrator
 PRODUCT_PACKAGES += \
-    vendor.qti.hardware.vibrator.service.oplus
+    vendor.qti.hardware.vibrator.service.xiaomi
 
 PRODUCT_COPY_FILES += \
     vendor/qcom/opensource/vibrator/excluded-input-devices.xml:$(TARGET_COPY_OUT_VENDOR)/etc/excluded-input-devices.xml
@@ -494,4 +476,4 @@ PRODUCT_BOOT_JARS += \
     WfdCommon
 
 # Inherit from the proprietary files makefile.
-$(call inherit-product, vendor/oneplus/sm8550-common/sm8550-common-vendor.mk)
+$(call inherit-product, vendor/xiaomi/sm8550-common/sm8550-common-vendor.mk)
